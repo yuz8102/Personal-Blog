@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>{% block title %}{% endblock %}- A Blog System</title>
+	<meta charset="utf-8">
+	<!--控制缩放-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<style type="text/css">
+		.post {
+			margin-bottom: 5px;
+		}
+	</style>
+	{% block extra_head %}
+	{% endblock extra_head %}
+</head>
+<body>
+	<div class="container head">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a href="/" class="navbar-brand">首页</a>
+			<div class="collapse navbar-collapse" id="
+			navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					{% for cate in navs %}
+						<li class="nav-item">
+							<!--使用url中定义的name-->
+							<a href="{% url 'category-list' cate.id %}" class="nav-link">{{cate.name}}</a>
+						</li>
+					{% endfor %}
+				</ul>
+				<form class="form-inline" action="/search/" method="GET">
+					<input type="search" class="form-control" placeholder="Search" aria-label="Search" name="keyword">
+					<!--input class="btn btn-outline-success" type="submit" value="搜索"-->
+					<button class="btn btn-outline-success" type="submit" >搜索</button>
+				</form>
+			</div>
+		</nav>
+		<div class="jumbotron">
+			<h1 class="display-4">A Blog System</h1>
+			<p class="lead">A Blog System built on django</p>
+		</div>
+	</div>
+	<div class="container main">
+		<div class="row">
+			<div class="col-9 post-list">
+				{% block main %}
+				{% endblock %}
+			</div>
+			<div class="col-3">
+				<!--sidebar在config中注册，CommonViewMixin中加入上下文，get_context_data获取，return context返回-->
+				{% block sidebar %}
+					{% for sidebar in sidebars %}
+						<div class="card sidebar">
+							<div class="card-body">
+								<h4 class="card-title">{{sidebar.title}}</h4>
+								<p>
+									{{sidebar.content_html}}
+								</p>
+							</div>
+						</div>
+					{% endfor %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer">
+		{% block footer %}
+			<div class="container">
+				<hr>
+				<nav class="nav category">
+					{% for cate in categories %}
+						<a href="{% url 'category-list' cate.id %}" class="nav-link">{{cate.name}}</a>
+					{% endfor %}
+				</nav>
+			</div>
+			<div class="container power">
+				<span class="text-muted" style="margin-left:5px">Power by Blog@Mine</span>
+			</div>
+
+			<div class="container" style="margin-bottom:20px">
+				<span style="margin-left:5px"></span>
+				<span class="text-muted" style="font-size:12px">友情链接:</span>
+				{% for link in links %}
+					<a href={{link.href}} style="font-size:12px">{{link.title}}</a>
+				{% endfor %}
+				
+			</div>
+		{% endblock footer %}
+	</footer>
+</body>
+</html>

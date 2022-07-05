@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}首页{% endblock %}- A Blog System</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<!--导航字段-->
+	<div>顶部分类：
+		{% for cate in navs %}
+		<a href="/catgory/{{cate.id}}/">{{cate.name}}</a>
+		{% endfor %}
+	</div>
+	<hr>
+
+	{% block main %}
+	{% endblock %}
+
+	<div style="border-width: 10px;
+			border-color: black;
+			border-style: solid;
+			width: 5%;
+			padding: 50px;
+			margin: 10px 20px;
+			float: left;">
+		{% for sidebar in sidebars %}
+			<h4>{{sidebar.title}}</h4>
+			{{sidebar.content_html}}
+		{% endfor %}
+	</div>
+
+	<div style="clear: both;"></div>
+
+	<hr>
+	<!--非导航字段-->
+	<div>底部分类：
+		{% for cate in categories %}
+		<a href="/category/{{cate.id}}/">{{cate.name}}</a>
+		{% endfor %}
+	</div>
+
+</body>
+</html>
